@@ -7,6 +7,9 @@ from django.shortcuts import render
 # # It just prints something in the browser.
 # def index(request):
 #     return HttpResponse("<h1>Woodstock</h1>")
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from music.models import Performer, Festival
 
 
 def index(request):
@@ -19,6 +22,16 @@ def index(request):
     passing it the request, the template file name, and the context.
     """
 
+    n_performers = Performer.objects.all().count()
+    n_festivals = Festival.objects.all().count()
+
+    context = {
+        'n_p': n_performers,
+        'n_f': n_festivals
+    }
+
+    return render(request, 'index.html', context=context)
+
 
 class PerformerListView(ListView):
     """Class-based view that handles lists of Performer objects.
@@ -29,13 +42,22 @@ class PerformerListView(ListView):
     making it return a QuerySet of objects (such as (possibly filtered) <Model>.objects.all()))
     """
 
+    model = Performer
+    template_name = 'music/performer-list.html'
+
+    def get_queryset(self):
+        return Performer.objects.all()
+
 
 class PerformerDetailView(DetailView):
     """Class-based view that handles individual Performer objects.
-    Typical fields that ListView-based classes specify include:
+    Typical fields that DetailView-based classes specify include:
         - model (class name of the corresponding <Model> class
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_detail.html')
     """
+
+    model = Performer
+    template_name = 'music/performer-detail.html'
 
 
 class FestivalListView(ListView):
@@ -47,14 +69,85 @@ class FestivalListView(ListView):
     making it return a QuerySet of objects (such as (possibly filtered) <Model>.objects.all()))
     """
 
+    model = Festival
+    template_name = 'music/festival-list.html'
+
+    def get_queryset(self):
+        return Festival.objects.all()
+
 
 class FestivalDetailView(DetailView):
     """Class-based view that handles individual Festival objects.
-    Typical fields that ListView-based classes specify include:
+    Typical fields that DetailView-based classes specify include:
         - model (class name of the corresponding <Model> class
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_detail.html')
     """
 
+    model = Festival
+    template_name = 'music/festival-detail.html'
 
+
+class PerformerCreateView(CreateView):
+    """Class-based view that handles creation of individual Performer objects through a form.
+    Typical fields that CreateView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - fields (a list of model fields to appear on the form,
+          e.g. fields = ['<model_field_1>', '<model_field_1>',...];
+          to include all fields from the model: model = '__all__')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
+    """
+
+
+class PerformerUpdateView(UpdateView):
+    """Class-based view that handles updating individual Performer objects through a form.
+    Typical fields that UpdateView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - fields (a list of model fields to appear on the form,
+          e.g. fields = ['<model_field_1>', '<model_field_1>',...];
+          to include all fields from the model: model = '__all__')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
+    """
+
+
+class PerformerDeleteView(DeleteView):
+    """Class-based view that handles deleting individual Performer objects through a form.
+    Typical fields that DeleteView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - success_url (the page to return to after deleting an object through a dialog form;
+          typically provided by success_url = reverse_lazy('<view_name>'); '<view_name>' is, e.g., '<model>-list')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_confirm_delete.html')
+    """
+
+
+class FestivalCreateView(CreateView):
+    """Class-based view that handles creation of individual Festival objects through a form.
+    Typical fields that CreateView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - fields (a list of model fields to appear on the form,
+          e.g. fields = ['<model_field_1>', '<model_field_1>',...];
+          to include all fields from the model: model = '__all__')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
+    """
+
+
+class FestivalUpdateView(UpdateView):
+    """Class-based view that handles updating individual Festival objects through a form.
+    Typical fields that UpdateView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - fields (a list of model fields to appear on the form,
+          e.g. fields = ['<model_field_1>', '<model_field_1>',...];
+          to include all fields from the model: model = '__all__')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
+    """
+
+
+class FestivalDeleteView(DeleteView):
+    """Class-based view that handles deleting individual Festival objects through a form.
+    Typical fields that DeleteView-based classes specify include:
+        - model (class name of the corresponding <Model> class
+        - success_url (the page to return to after deleting an object through a dialog form;
+          typically provided by success_url = reverse_lazy('<view_name>'); '<view_name>' is, e.g., '<model>-list')
+        - template_name ('<app>/<template file name>'; default: '<app>/<model>_confirm_delete.html')
+    """
 
 

@@ -1,12 +1,13 @@
 from django.db import models
 
 # Create your models here.
-
+from django.db.models import CharField, DateField, BooleanField, ForeignKey, SET_NULL
+from django.urls import reverse
 
 """
 Create some model(s) in the <app>/models.py file
     typical fields:
-        models.CharField(max_length=<n>)
+        models.CharField(max_length=<n>, default='<...>')
         models.BooleanField(verbose_name=<verbose name>, 
 		    		        choices=<choices_list>, 
 		    		        default=<choice from choices_list>,
@@ -43,13 +44,20 @@ class Festival(models.Model):
     It includes a name, location and the start and end dates.
     """
 
+    name = CharField(max_length=100, default='unknown')
+    start = DateField(null=True, blank=True)
+    end = DateField(null=True, blank=True)
+    location = CharField(max_length=100, default='unknown location')
+
     def __str__(self):
-        pass
+        return f'{self.name} ({self.start.isoformat()} - {self.end.isoformat()}), {self.location}'
 
     def get_absolute_url(self):
         """Returns the URL to access a particular festival instance.
         Enables specific Festival pages in admin to include "View on site" button.
         """
+
+        return reverse('festival-detail', args=[str(self.id)])
 
 
 class Performer(models.Model):
@@ -58,12 +66,21 @@ class Performer(models.Model):
     name and whether they are a solo performer or a band.
     """
 
+    musician_or_band = [
+        (False, 'musician'),
+        (True, 'band')
+    ]
+
+    name = CharField(max_length=100)
+    is_band = BooleanField(verbose_name='Musician / Band', choices=musician_or_band, default=False)
+    festival = ForeignKey(Festival, on_delete=SET_NULL, null=True, blank=True)
+
     def __str__(self):
-        pass
+        return f'{self.name} (musician)' if not self.is_band else f'{self.name} (band)'
 
     def get_absolute_url(self):
         """Returns the URL to access a particular performer instance.
         Enables specific Performer pages in admin to include "View on site" button.
         """
-
+        return reverse('performer-detail', args=[str(self.id)])
 
