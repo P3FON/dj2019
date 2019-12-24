@@ -7,6 +7,7 @@ from django.shortcuts import render
 # # It just prints something in the browser.
 # def index(request):
 #     return HttpResponse("<h1>Woodstock</h1>")
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from music.models import Performer, Festival
@@ -30,6 +31,7 @@ def index(request):
         'n_f': n_festivals
     }
 
+    # return render(request, 'index.html')
     return render(request, 'index.html', context=context)
 
 
@@ -40,6 +42,9 @@ class PerformerListView(ListView):
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_list.html')
     Typically, such views also override ListView.get_queryset(),
     making it return a QuerySet of objects (such as (possibly filtered) <Model>.objects.all()))
+    In case more context is needed, which is completely optional and depends on the application
+    (see https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-display/#adding-extra-context),
+    it is also necessary to override ListView.get_context_data() and add more dictionary entries.
     """
 
     model = Performer
@@ -54,6 +59,9 @@ class PerformerDetailView(DetailView):
     Typical fields that DetailView-based classes specify include:
         - model (class name of the corresponding <Model> class
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_detail.html')
+    In case more context is needed, which is completely optional and depends on the application
+    (see https://docs.djangoproject.com/en/dev/topics/class-based-views/generic-display/#adding-extra-context),
+    it is also necessary to override ListView.get_context_data() and add more dictionary entries.
     """
 
     model = Performer
@@ -97,6 +105,10 @@ class PerformerCreateView(CreateView):
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
     """
 
+    model = Performer
+    template_name = 'music/performer-form.html'
+    fields = '__all__'
+
 
 class PerformerUpdateView(UpdateView):
     """Class-based view that handles updating individual Performer objects through a form.
@@ -108,6 +120,10 @@ class PerformerUpdateView(UpdateView):
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
     """
 
+    model = Performer
+    template_name = 'music/performer-form.html'
+    fields = '__all__'
+
 
 class PerformerDeleteView(DeleteView):
     """Class-based view that handles deleting individual Performer objects through a form.
@@ -117,6 +133,10 @@ class PerformerDeleteView(DeleteView):
           typically provided by success_url = reverse_lazy('<view_name>'); '<view_name>' is, e.g., '<model>-list')
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_confirm_delete.html')
     """
+
+    model = Performer
+    template_name = 'music/performer-confirm-delete.html'
+    success_url = reverse_lazy('performer-list')
 
 
 class FestivalCreateView(CreateView):
@@ -129,6 +149,10 @@ class FestivalCreateView(CreateView):
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
     """
 
+    model = Festival
+    template_name = 'music/festival-form.html'
+    fields = '__all__'
+
 
 class FestivalUpdateView(UpdateView):
     """Class-based view that handles updating individual Festival objects through a form.
@@ -140,6 +164,10 @@ class FestivalUpdateView(UpdateView):
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_form.html')
     """
 
+    model = Festival
+    template_name = 'music/festival-form.html'
+    fields = '__all__'
+
 
 class FestivalDeleteView(DeleteView):
     """Class-based view that handles deleting individual Festival objects through a form.
@@ -149,5 +177,11 @@ class FestivalDeleteView(DeleteView):
           typically provided by success_url = reverse_lazy('<view_name>'); '<view_name>' is, e.g., '<model>-list')
         - template_name ('<app>/<template file name>'; default: '<app>/<model>_confirm_delete.html')
     """
+
+    model = Festival
+    template_name = 'music/festival-confirm-delete.html'
+    success_url = reverse_lazy('festival-list')
+
+
 
 

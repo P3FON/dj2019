@@ -4,14 +4,16 @@
     <div>
         <br>
         {% if festival_list %}
-            <p>Festivals registered in the database fo far:</p>
+            <p>Performers registered in the database so far:</p>
             <ul>
                 {% for f in festival_list %}
                     <li><a href="{% url 'festival-detail' f.pk %}">{{ f.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>No festival registered in the database yet.</p>
+            <p>No festival registered in the database so far.</p>
         {% endif %}
+        <p><a href="{% url 'festival-create' %}">Add festival</a></p>
+        <br>
     </div>
 {% endblock %}

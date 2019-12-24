@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <br>
+        <p>Delete {{ festival }}?</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Yes, delete">
+            &nbsp; &nbsp;
+            <a href="{% url 'festival-list' %}">No, keep it</a>
+        </form>
+        <br>
+    </div>
+{% endblock %}

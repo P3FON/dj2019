@@ -6,10 +6,15 @@
         <p>{{ festival }}</p>
         {% if festival.performer_set %}
             <ul>
-                {% for performer in festival.performer_set.all  %}
+                {% for performer in festival.performer_set.all %}
                     <li><a href="{% url 'performer-detail' performer.pk %}">{{ performer.name }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}
+        <p>
+            <a href="{% url 'festival-update' festival.pk %}">Update festival</a> <br>
+            <a href="{% url 'festival-delete' festival.pk %}">Delete festival</a>
+        </p>
+        <br>
     </div>
 {% endblock %}

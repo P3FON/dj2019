@@ -4,5 +4,10 @@
     <div>
         <br>
         <p>{{ performer }}</p>
+        <p>
+            <a href="{% url 'performer-update' performer.pk %}">Update performer</a> <br>
+            <a href="{% url 'performer-delete' performer.pk %}">Delete performer</a>
+        </p>
+        <br>
     </div>
 {% endblock %}

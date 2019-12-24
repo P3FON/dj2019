@@ -13,7 +13,9 @@ Different URL patterns for an app are typically specified in the following ways:
 from django.urls import path
 
 from music import views
-from music.views import PerformerListView, PerformerDetailView, FestivalListView, FestivalDetailView
+from music.views import PerformerListView, PerformerDetailView, FestivalListView, FestivalDetailView, \
+    PerformerCreateView, PerformerUpdateView, PerformerDeleteView, FestivalCreateView, FestivalUpdateView, \
+    FestivalDeleteView
 
 urlpatterns = [
     path('', views.index, name='index')
@@ -24,7 +26,7 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('performers/<int:pk>', PerformerDetailView.as_view(), name='performer-detail')
+    path('performers/<int:pk>/', PerformerDetailView.as_view(), name='performer-detail')
 ]
 
 urlpatterns += [
@@ -32,6 +34,19 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('festivals/<int:pk>', FestivalDetailView.as_view(), name='festival-detail')
+    path('festivals/<int:pk>/', FestivalDetailView.as_view(), name='festival-detail')
 ]
+
+urlpatterns += [
+    path('performers/create/', PerformerCreateView.as_view(), name='performer-create'), 
+    path('performers/<int:pk>/update/', PerformerUpdateView.as_view(), name='performer-update'),
+    path('performers/<int:pk>/delete/', PerformerDeleteView.as_view(), name='performer-delete')
+]
+
+urlpatterns += [
+    path('festivals/create/', FestivalCreateView.as_view(), name='festival-create'), 
+    path('festivals/<int:pk>/update/', FestivalUpdateView.as_view(), name='festival-update'),
+    path('festivals/<int:pk>/delete/', FestivalDeleteView.as_view(), name='festival-delete')
+]
+
 

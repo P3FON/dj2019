@@ -2,18 +2,18 @@
 
 {% block content %}
     <div>
-{#        <h1>Woodstock</h1>#}
-{#        <p>This is the initial version of index.html.</p>#}
         <br>
         {% if performer_list %}
-            <p>Performers registered in the database fo far:</p>
-            {% for p in performer_list %}
-                <ul>
+            <p>Performers registered in the database so far:</p>
+            <ul>
+                {% for p in performer_list %}
                     <li><a href="{% url 'performer-detail' p.pk %}">{{ p.name }}</a></li>
-                </ul>
-            {% endfor %}
+                {% endfor %}
+            </ul>
         {% else %}
-            <p>No performer registered in the database yet.</p>
+            <p>No performer registered in the database so far.</p>
         {% endif %}
+        <p><a href="{% url 'performer-create' %}">Add performer</a></p>
+        <br>
     </div>
 {% endblock %}
